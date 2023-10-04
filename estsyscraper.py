@@ -1,9 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-import csv
+import requests
 import time
-import json
 import string
 import os
 import re
@@ -51,10 +50,22 @@ for link in product_links:
         image_link.append(image.get_attribute("src"))
     path_title = re.sub(r'[^\w_. -]', '_', title)
     mydir = ROOTDIR + "/" + path_title
-    os.mkdir(mydir)
+    try: 
+        os.mkdir(mydir)
+    except:
+        pass
     file1 = open(mydir + "/info.txt","w")
     file1.write(title)
     file1.write(price + "\n")
     file1.write(desc)
-    
-    #time.sleep(4)
+    file1.close()
+
+    for i in range(len(image_link)):
+        data = requests.get(image_link[i]).content
+        index = i-1
+        if index == -1:
+            index = ""
+        f = open(mydir + "/image" + str(index) + ".jpg", 'wb')
+        f.write(data)
+        f.close()
+    time.sleep(.5)
