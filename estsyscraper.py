@@ -54,7 +54,7 @@ for link in product_links:
         os.mkdir(mydir)
     except:
         pass
-    file1 = open(mydir + "/info.txt","w")
+    file1 = open(mydir + "/info.txt","w", encoding="utf-8")
     file1.write(title)
     file1.write(price + "\n")
     file1.write(desc)
